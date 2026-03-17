@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBridge Nigeria</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+</head>
+<body>
+    <header class="top-panel">
+        <div class="header-left">
+            <h1>HealthBridge Nigeria</h1>
+            <p>National Health Early Warning System, 3MTT project</p>
+        </div>
+        <div class="header-center">
+            <h2 id="daily-reports-count">Daily Report Summary: 0</h2>
+            <p>Reports in last 24h</p>
+        </div>
+        <div class="header-right">
+            <div id="national-alert-indicator" class="alert-indicator green">
+                <span class="pulse"></span>
+                <span id="alert-text">National Status: HEALTHY</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="workflow-panel">
+        <div class="workflow-step">📱 Community Phones</div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">📝 Reports</div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">🧠 Detection Engine</div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">🚨 Alerts</div>
+        <div class="workflow-arrow">→</div>
+        <div class="workflow-step">🏥 Public Health Response</div>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard Analytics</button>
+        <button class="tab-btn" onclick="switchTab('simulator')">USSD Simulator</button>
+    </div>
+
+    <main id="dashboard-tab" class="tab-content active">
+        <div class="dashboard-grid">
+            <!-- LEFT PANEL: Insights & Feeds -->
+            <div class="side-panel left-panel">
+                <div class="panel-section">
+                    <h4>Top 5 Symptoms Nationwide</h4>
+                    <div class="mini-chart-wrapper">
+                        <canvas id="topSymptomsPieChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <h4>Top 5 States (Abnormal Reports)</h4>
+                    <ul class="top-states-list" id="top-abnormal-states">
+                        <!-- Injected via JS -->
+                    </ul>
+                </div>
+                
+                <div class="panel-section flex-grow">
+                    <h4>Real-Time Alerts Feed</h4>
+                    <div class="alerts-feed" id="live-alerts-feed">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER PANEL: Map -->
+            <div class="map-container">
+                <div class="map-header">
+                    <h3>National Surveillance Map</h3>
+                    <p class="map-hint">Click on a state to view state-specific data</p>
+                </div>
+                
+                <div class="map-insight">
+                    <strong>System Insight:</strong> Active monitoring across all regions. Alert thresholds are normal.
+                </div>
+
+                <div id="map-svg-wrapper">
+                    <!-- SVG map injected here via app.js -->
+                </div>
+                
+                <div class="map-legend">
+                    <span class="legend-item"><span class="legend-color green"></span> Healthy</span>
+                    <span class="legend-item"><span class="legend-color yellow"></span> Warning</span>
+                    <span class="legend-item"><span class="legend-color red"></span> Critical</span>
+                </div>
+            </div>
+            
+            <!-- RIGHT PANEL: National Overview (Scrollable) -->
+            <div class="state-info-container">
+                <div class="state-header sticky-header">
+                    <h3 id="selected-state-title">National Overview</h3>
+                    <button id="reset-map-btn" class="hidden">Reset to National</button>
+                </div>
+                
+                <div class="scrollable-content">
+                    <div class="alerts-section" id="alerts-container">
+                        <!-- Alerts dynamically injected -->
+                    </div>
+                    
+                    <div class="panel-section insights-box">
+                        <h4>Recommendations / Notes</h4>
+                        <p id="recommendations-text">Monitoring normal baselines. Ensure health workers report severe cases immediately.</p>
+                    </div>
+
+                    <div class="charts-section">
+                        <div class="chart-wrapper">
+                            <h4>Symptom Trend Chart</h4>
+                            <canvas id="symptomTrendChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>Disease Trend Prediction (Next 7 Days)</h4>
+                            <canvas id="diseaseTrendChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>Mini Trend Analysis (Day vs Week)</h4>
+                            <div class="mini-trend-bars" id="mini-trend-analysis">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cluster-section">
+                        <h4>Symptom Report Clusters</h4>
+                        <table class="cluster-table">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Symptoms</th>
+                                    <th>Reports</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cluster-table-body">
+                                <!-- Table rows injected dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="panel-section">
+                        <h4>State Risk Summary Cards</h4>
+                        <div class="risk-cards-grid" id="risk-cards-container">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="simulator-tab" class="tab-content">
+        <div class="simulator-wrapper">
+            <div class="phone">
+                <div class="phone-screen">
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span>📶 🔋</span>
+                    </div>
+                    <div class="dialer-screen active" id="dialer-screen">
+                        <input type="text" id="ussd-input" placeholder="Type *123# and press call" value="*123#">
+                        <button class="call-btn" onclick="startUssd()">📞 Call</button>
+                    </div>
+                    
+                    <div class="ussd-screen" id="ussd-screen">
+                        <div class="ussd-text" id="ussd-text"></div>
+                        <input type="text" id="ussd-reply" class="ussd-reply-input">
+                        <div class="ussd-actions">
+                            <button onclick="cancelUssd()">Cancel</button>
+                            <button onclick="sendUssd()">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- SMS Popup Overlay -->
+                    <div class="sms-popup" id="sms-popup">
+                        <div class="sms-header">
+                            <span>New Message</span>
+                            <button class="close-sms" onclick="closeSms()">×</button>
+                        </div>
+                        <div class="sms-body" id="sms-body-text"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="simulator-instructions">
+                <h2>HealthBridge USSD Simulator</h2>
+                <p>Dial *123# to start the HealthBridge service.</p>
+                <p>The system supports English, Yoruba, Igbo, and Hausa.</p>
+                <p>Navigate the menus by typing the corresponding number and clicking Send.</p>
+                <p>To go back, type <code>0</code>. To main menu, type <code>00</code>.</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="live-ticker">
+        <div class="ticker-label">Live Reports</div>
+        <div class="ticker-content" id="ticker-content">
+            <!-- Ticker items dynamically injected -->
+        </div>
+    </div>
+
+    <!-- Application scripts -->
+    <script src="data.js"></script>
+    <script src="ussd.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

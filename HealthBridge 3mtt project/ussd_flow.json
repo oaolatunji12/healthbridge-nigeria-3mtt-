@@ -1,0 +1,76 @@
+{
+    "service_code": "*123#",
+    "project_name": "HealthBridge Nigeria 3MTT",
+    "menus": {
+      "start": {
+        "text": "Welcome to HealthBridge Nigeria\nSelect Language / Yan Ede / Họrọ Asụsụ / Zabi Yare:\n1. English\n2. Yoruba\n3. Igbo\n4. Hausa",
+        "options": {
+          "1": "en_main",
+          "2": "yo_main",
+          "3": "ig_main",
+          "4": "ha_main"
+        }
+      },
+      "en_main": {
+        "text": "MAIN MENU:\n1. Prevent Diseases\n2. Emergency Signs\n3. Child Health\n4. Immunization & Vaccination\n0. Exit",
+        "options": {
+          "1": "en_prevent",
+          "2": "en_emergency",
+          "3": "en_child",
+          "4": "en_immunize",
+          "0": "exit"
+        }
+      },
+      "en_prevent": {
+        "text": "PREVENT DISEASES:\n1. Malaria\n2. Diarrhoea/Typhoid\n3. Cold/Pneumonia\n4. Lassa Fever\n5. BP & Stroke\n6. Diabetes\n7. Cancers\n8. Mental Health\n0. Back  00. Main Menu",
+        "options": {
+          "1": "en_malaria",
+          "2": "en_diarrhoea",
+          "3": "en_cold",
+          "4": "en_lassa",
+          "5": "en_bp",
+          "6": "en_diabetes",
+          "7": "en_cancer",
+          "8": "en_mental",
+          "0": "en_main",
+          "00": "en_main"
+        }
+      },
+      "en_malaria": {
+        "text": "MALARIA:\n1. Causes\n2. Symptoms\n3. Prevention\n4. Treatment\n5. When to Visit Hospital\n0. Back  00. Main Menu",
+        "options": {
+          "1": { "text": "Causes: Bite from infected mosquito.\n0. Back", "options": { "0": "en_malaria" } },
+          "2": { "text": "Symptoms: Fever, headache, chills, body weakness.\n0. Back", "options": { "0": "en_malaria" } },
+          "3": { "text": "Prevention: Sleep under mosquito net. Clear stagnant water. Use mosquito repellent.\n0. Back", "options": { "0": "en_malaria" } },
+          "4": { "text": "Treatment: Test before treatment. Use approved malaria drugs.\n0. Back", "options": { "0": "en_malaria" } },
+          "5": { "text": "Hospital Limit: Fever >24hrs? Visit nearest health center.", "sms": "If fever lasts more than 24 hours, visit the nearest health center immediately for malaria testing.", "options": { "0": "en_malaria" } },
+          "0": "en_prevent",
+          "00": "en_main"
+        }
+      },
+      "en_emergency": {
+        "text": "EMERGENCY SIGNS:\nSevere bleeding, breathing difficulty, unconsciousness, convulsions. Go to hospital NOW.",
+        "sms": "EMERGENCY: Go to the hospital NOW if experiencing severe bleeding, breathing difficulty, or convulsions.",
+        "options": { "0": "en_main" }
+      },
+      "yo_main": {
+        "text": "AKỌKỌ AKOJO:\n1. Idaabobo Arun\n2. Ami Pajawiri\n3. Ilera Omode\n4. Igbese ajesara\n0. Jade",
+        "options": {
+          "1": "yo_prevent",
+          "2": "yo_emergency",
+          "3": "yo_child",
+          "4": "yo_immunize",
+          "0": "exit"
+        }
+      },
+      "ig_main": {
+          "text": "MENU MBU:\n1. Gbochie Aria\n2. Mgbaama Mberede\n3. Ahu Ike Umuaka\n4. Ogwu mgbochi & Akwukwo mgbochi\n0. Puo",
+          "options": { "1": "ig_prevent", "2": "ig_emergency", "3": "ig_child", "4": "ig_immunize", "0": "exit" }
+      },
+      "ha_main": {
+          "text": "MENU NA FARKO:\n1. Hana Cututtuka\n2. Alamun Gaggawa\n3. Lafiyar Yara\n4. Rigakafi & Allurar Rigakafi\n0. Fita",
+          "options": { "1": "ha_prevent", "2": "ha_emergency", "3": "ha_child", "4": "ha_immunize", "0": "exit" }
+      }
+    },
+    "note": "Full language structures (English, Hausa, Igbo, Yoruba) are contained within the payload inside data.js for deployment."
+}
